@@ -34,6 +34,7 @@
 		CC5595932C3426E1004A3572 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595922C3426E1004A3572 /* ChatTableViewCell.swift */; };
 		CC5595952C342A12004A3572 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595942C342A12004A3572 /* ChatViewModel.swift */; };
 		CC5595972C34322D004A3572 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595962C34322D004A3572 /* SocketManager.swift */; };
+		CC5E5A572C3528D200A088D0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = CC5E5A562C3528D200A088D0 /* SocketIO */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 				CC5595812C33EC5E004A3572 /* RxRelay in Frameworks */,
 				CC5595872C33EC5E004A3572 /* RxSwift-Dynamic in Frameworks */,
 				CC55957B2C33EC5E004A3572 /* RxBlocking-Dynamic in Frameworks */,
+				CC5E5A572C3528D200A088D0 /* SocketIO in Frameworks */,
 				CC55957F2C33EC5E004A3572 /* RxCocoa-Dynamic in Frameworks */,
 				CC5595732C33E34A004A3572 /* SnapKit in Frameworks */,
 				CC55957D2C33EC5E004A3572 /* RxCocoa in Frameworks */,
@@ -195,6 +197,7 @@
 				CC5595822C33EC5E004A3572 /* RxRelay-Dynamic */,
 				CC5595842C33EC5E004A3572 /* RxSwift */,
 				CC5595862C33EC5E004A3572 /* RxSwift-Dynamic */,
+				CC5E5A562C3528D200A088D0 /* SocketIO */,
 			);
 			productName = "SocketIO+RxSwift";
 			productReference = CC55954C2C33DE6E004A3572 /* SocketIO+RxSwift.app */;
@@ -227,6 +230,7 @@
 			packageReferences = (
 				CC5595712C33E34A004A3572 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CC5595772C33EC5E004A3572 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				CC5E5A552C3528D200A088D0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 			);
 			productRefGroup = CC55954D2C33DE6E004A3572 /* Products */;
 			projectDirPath = "";
@@ -500,6 +504,14 @@
 				minimumVersion = 6.7.1;
 			};
 		};
+		CC5E5A552C3528D200A088D0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -547,6 +559,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CC5595772C33EC5E004A3572 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = "RxSwift-Dynamic";
+		};
+		CC5E5A562C3528D200A088D0 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC5E5A552C3528D200A088D0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

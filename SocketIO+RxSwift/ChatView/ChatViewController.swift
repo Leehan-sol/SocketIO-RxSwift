@@ -33,12 +33,16 @@ class ChatViewController: UIViewController {
         setTapGesture()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        viewModel.disConnectRoom()
+    }
+    
     private func setBindings() {
         viewModel.selectedChatSubject
             .map { $0.roomName }
             .subscribe(onNext: { [weak self] roomName in
                 self?.chatView.chatTitleLabel.text = roomName
-                self?.viewModel.connectSocket(roomName)
+                self?.viewModel.connectRoom(roomName)
             })
             .disposed(by: disposeBag)
     }

@@ -37,7 +37,6 @@ class SignUpViewController: UIViewController {
         viewModel.isNickNameValid
             .bind(to: signUpView.signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
-
     }
     
     private func setTapGesture() {

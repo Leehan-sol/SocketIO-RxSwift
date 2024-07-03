@@ -10,7 +10,7 @@ import RxSwift
 
 class ChatViewModel {
     // ✨ 소켓 연결해야함
-    var selectedChatSubject: BehaviorSubject<ChatList> = BehaviorSubject(value: ChatList(roomName: "", headCount: 0))
+    var selectedChatSubject: BehaviorSubject<ChatList> = BehaviorSubject(value: ChatList(roomName: "", headCount: "0"))
  
 
     init(_ selectedChat: ChatList) {
@@ -18,8 +18,11 @@ class ChatViewModel {
     }
     
     // ✨ 소켓 연결 로직
-    func connectSocket(_ name: String) {
-        
+    func connectRoom(_ roomName: String) {
+        SocketIOManager.shared.connectRoom()
     }
     
+    func disConnectRoom() {
+        SocketIOManager.shared.disConnectRoom()
+    }
 }
