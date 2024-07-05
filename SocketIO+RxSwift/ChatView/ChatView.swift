@@ -12,9 +12,25 @@ class ChatView: UIView {
         let label = UILabel()
         label.text = "채팅방 이름"
         label.textAlignment = .left
-        label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title1).pointSize)
         return label
+    }()
+    
+    let chatHeadCountLabel: UILabel = {
+        let label = UILabel()
+        label.text = "(인원수)"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+        return label
+    }()
+    
+    let labelsStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.spacing = 10
+        sv.alignment = .bottom
+        sv.distribution = .fillEqually
+        return sv
     }()
     
     let backButton: UIButton = {
@@ -27,7 +43,6 @@ class ChatView: UIView {
     
     let chatTableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = .yellow
         return tv
     }()
     
@@ -62,20 +77,23 @@ class ChatView: UIView {
     
     private func setUI() {
         self.backgroundColor = .systemBackground
-        
-        let subviews = [chatTitleLabel, backButton, chatTableView, chatTextField, sendButton]
+        let stackViewSubvies = [chatTitleLabel, chatHeadCountLabel]
+        let subviews = [labelsStackView, backButton, chatTableView, chatTextField, sendButton]
         
         subviews.forEach { addSubview($0) }
+        stackViewSubvies.forEach { labelsStackView.addArrangedSubview($0) }
         
-        chatTitleLabel.snp.makeConstraints {
+        labelsStackView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
             $0.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(20)
+            $0.trailing.lessThanOrEqualTo(backButton.snp.leading).offset(-20)
         }
         
         backButton.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
             $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).inset(20)
         }
+        
         
         chatTableView.snp.makeConstraints {
             $0.top.equalTo(chatTitleLabel.snp.bottom).offset(5)
@@ -84,14 +102,15 @@ class ChatView: UIView {
         }
         
         chatTextField.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-10)
-            $0.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(10)
+            $0.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(20)
             $0.trailing.equalTo(sendButton.snp.leading).offset(-10)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
+            $0.width.equalTo(300)
         }
         
         sendButton.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-10)
-            $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-10)
+            $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-20)
+            $0.centerY.equalTo(chatTextField)
         }
     }
     

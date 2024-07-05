@@ -52,6 +52,6 @@ class ListTableViewCell: UITableViewCell {
     
     func configure(with chatList: ChatList) {
         roomNameLabel.text = chatList.roomName
-        headCountLabel.text = "\(chatList.headCount) 명"
+        headCountLabel.text = "현재 \(chatList.headCount) 명"
     }
 }

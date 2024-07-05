@@ -9,5 +9,5 @@ import Foundation
 
 struct ChatList: Codable {
     let roomName: String
-    let headCount: String
+    let headCount: Int
 }

@@ -35,6 +35,7 @@
 		CC5595952C342A12004A3572 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595942C342A12004A3572 /* ChatViewModel.swift */; };
 		CC5595972C34322D004A3572 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595962C34322D004A3572 /* SocketManager.swift */; };
 		CC5E5A572C3528D200A088D0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = CC5E5A562C3528D200A088D0 /* SocketIO */; };
+		CC79FF942C37EDD500117609 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC79FF932C37EDD500117609 /* KeyboardManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		CC5595922C3426E1004A3572 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		CC5595942C342A12004A3572 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		CC5595962C34322D004A3572 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		CC79FF932C37EDD500117609 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,8 +104,8 @@
 			children = (
 				CC55954F2C33DE6E004A3572 /* AppDelegate.swift */,
 				CC5595512C33DE6E004A3572 /* SceneDelegate.swift */,
-				CC55958B2C3407DC004A3572 /* Model */,
 				CC55958A2C33F0B9004A3572 /* Utils */,
+				CC55958B2C3407DC004A3572 /* Model */,
 				CC5595692C33E0DD004A3572 /* SignUpView */,
 				CC5595682C33E0D6004A3572 /* ListView */,
 				CC55956E2C33E1A0004A3572 /* ChatView */,
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				CC5595882C33F0B5004A3572 /* Utils.swift */,
+				CC79FF932C37EDD500117609 /* KeyboardManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				CC55956B2C33E0FF004A3572 /* SignUpViewController.swift in Sources */,
 				CC55958F2C340800004A3572 /* Chat.swift in Sources */,
 				CC5595972C34322D004A3572 /* SocketManager.swift in Sources */,
+				CC79FF942C37EDD500117609 /* KeyboardManager.swift in Sources */,
 				CC5595752C33EC1F004A3572 /* ViewModel.swift in Sources */,
 				CC5595642C33DFAB004A3572 /* ListView.swift in Sources */,
 				CC5595702C33E1B4004A3572 /* ChatViewController.swift in Sources */,

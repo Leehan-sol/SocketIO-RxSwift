@@ -14,7 +14,7 @@ class ViewModel {
     let nickNameSubject = BehaviorSubject<String?>(value: nil)
     
     // Output
-    var isNickNameValid: Observable<Bool> {
+    var validNickname: Observable<Bool> {
         return nickNameSubject.map { nickName in
             guard let nickName = nickName else { return false }
             return !nickName.isEmpty && nickName.count <= 10
@@ -26,15 +26,18 @@ class ViewModel {
     
     
     init() {
+        SocketIOManager.shared.setupSocket()
         setBindings()
     }
     
     func setBindings() {
-        SocketIOManager.shared.setupSocket()
         SocketIOManager.shared.chatListSubject
             .bind(to: chatListSubject)
             .disposed(by: disposeBag)
     }
     
+    func addChatList(_ newChatName: String) {
+        SocketIOManager.shared.addChatList(newChatName)
+    }
 }
 

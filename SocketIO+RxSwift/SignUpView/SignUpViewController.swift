@@ -34,7 +34,7 @@ class SignUpViewController: UIViewController {
             .bind(to: viewModel.nickNameSubject)
             .disposed(by: disposeBag)
         
-        viewModel.isNickNameValid
+        viewModel.validNickname
             .bind(to: signUpView.signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
