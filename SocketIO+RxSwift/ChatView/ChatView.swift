@@ -29,7 +29,7 @@ class ChatView: UIView {
         sv.axis = .horizontal
         sv.spacing = 10
         sv.alignment = .bottom
-        sv.distribution = .fillEqually
+        sv.distribution = .fill
         return sv
     }()
     
@@ -43,6 +43,7 @@ class ChatView: UIView {
     
     let chatTableView: UITableView = {
         let tv = UITableView()
+        tv.separatorStyle = .none 
         return tv
     }()
     
@@ -89,11 +90,14 @@ class ChatView: UIView {
             $0.trailing.lessThanOrEqualTo(backButton.snp.leading).offset(-20)
         }
         
+        chatHeadCountLabel.snp.makeConstraints {
+            $0.trailing.lessThanOrEqualToSuperview().offset(-10)
+        }
+        
         backButton.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
             $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).inset(20)
         }
-        
         
         chatTableView.snp.makeConstraints {
             $0.top.equalTo(chatTitleLabel.snp.bottom).offset(5)
@@ -102,16 +106,18 @@ class ChatView: UIView {
         }
         
         chatTextField.snp.makeConstraints {
-            $0.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(20)
+            $0.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(10)
             $0.trailing.equalTo(sendButton.snp.leading).offset(-10)
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
-            $0.width.equalTo(300)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-10)
+        }
+
+        sendButton.snp.makeConstraints {
+            $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-10)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-10)
+            $0.width.equalTo(50)
         }
         
-        sendButton.snp.makeConstraints {
-            $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).offset(-20)
-            $0.centerY.equalTo(chatTextField)
-        }
+        
     }
     
 }

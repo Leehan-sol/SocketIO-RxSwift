@@ -21,7 +21,7 @@ class ChatViewModel {
     init(_ selectedChat: ChatList, _ userNickname: String) {
         self.selectedChatSubject = BehaviorSubject(value: selectedChat)
         self.userNickname = userNickname
-        connectRoom(selectedChat.roomName) // ✨ 커넥트 상황에 따라 indicatorView 표시
+        connectRoom(selectedChat.roomName)
         setBindings()
     }
     
@@ -39,7 +39,7 @@ class ChatViewModel {
                 self.chatSubject.onNext(self.chats)
             })
             .disposed(by: disposeBag)
-
+        
         selectedChatSubject
             .flatMapLatest { selectedChat -> Observable<[ChatList]> in
                 SocketIOManager.shared.chatListSubject
@@ -55,7 +55,7 @@ class ChatViewModel {
                 }
             })
             .disposed(by: disposeBag)
-
+        
     }
     
     

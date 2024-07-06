@@ -8,10 +8,42 @@
 import UIKit
 
 class ChatTableViewCell: UITableViewCell {
-    // ✨ 보낸사람 레이블도 만들어야함
+    let stackView: UIStackView = {
+        let sv = UIStackView()
+        sv.alignment = .top
+        sv.axis = .vertical
+        sv.spacing = 5
+        sv.distribution = .fill
+        return sv
+    }()
+
+    let senderLabel: UILabel = {
+       let label = UILabel()
+        label.text = "보낸 사람"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+        return label
+    }()
+    
+    let meLabel: UILabel = {
+       let label = UILabel()
+        label.text = "나"
+        label.textAlignment = .right
+        label.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+        return label
+    }()
+    
+    let messageBox: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        view.layer.cornerRadius = 5
+        return view
+    }()
+    
     let messageLabel: UILabel = {
         let label = UILabel()
         label.text = "채팅메세지"
+        label.numberOfLines = 0
         return label
     }()
 
@@ -26,22 +58,48 @@ class ChatTableViewCell: UITableViewCell {
     
     func setUI() {
         self.selectionStyle = .none
-        let subviews = [messageLabel]
         
-        subviews.forEach { contentView.addSubview($0) }
+        contentView.addSubview(stackView)
+        messageBox.addSubview(messageLabel)
+        
+        let stackViewSubvies = [senderLabel, meLabel, messageBox]
+        stackViewSubvies.forEach { stackView.addArrangedSubview($0) }
+        
+        stackView.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview().inset(5)
+        }
+        
+        senderLabel.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview().inset(10)
+        }
+        
+        meLabel.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(senderLabel)
+        }
+        
+        messageBox.snp.makeConstraints {
+            $0.top.equalTo(senderLabel.snp.bottom).offset(10)
+            $0.bottom.leading.trailing.equalToSuperview().inset(10)
+        }
         
         messageLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(12)
-            $0.leading.trailing.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-12)
+            $0.top.bottom.leading.trailing.equalToSuperview().inset(5)
         }
+        
     }
     
-    // ✨ 보낸사람 받아서 확인해서 레이블 숨김 처리 하는 로직
-    func configure(with chat: Chat) {
-        messageLabel.text = ("메세지: \(chat.message) 보낸사람: \(chat.sender)")
-//        headCountLabel.text = "\(chatList.headCount) 명"
+    func configure(with chat: Chat, userNickname: String) {
+        messageLabel.text = chat.message
+        senderLabel.text = chat.sender
+        let isCurrentUser = chat.sender == userNickname
+
+        configureSenderLabel(for: chat.sender, isCurrentUser: isCurrentUser)
     }
-    
-    
+
+    private func configureSenderLabel(for sender: String, isCurrentUser: Bool) {
+        senderLabel.isHidden = isCurrentUser ? true : false
+        meLabel.isHidden = isCurrentUser ? false : true
+    }
 }
+
+
