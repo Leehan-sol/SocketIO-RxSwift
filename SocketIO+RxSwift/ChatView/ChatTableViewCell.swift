@@ -83,7 +83,7 @@ class ChatTableViewCell: UITableViewCell {
         }
         
         messageLabel.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview().inset(5)
+            $0.top.bottom.leading.trailing.equalToSuperview().inset(10)
         }
         
     }

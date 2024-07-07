@@ -16,17 +16,12 @@ class ChatViewController: UIViewController {
     
     init(_ viewModel: ChatViewModel) {
         self.viewModel = viewModel
-        print("채팅페이지 init")
         super.init(nibName: nil, bundle: .none)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
         
-    }
-    
-    deinit {
-        print("채팅페이지 deinit")
     }
     
     override func loadView() {
@@ -87,9 +82,7 @@ class ChatViewController: UIViewController {
         
         viewModel.selectedChatSubject
             .map { $0.roomName }
-            .subscribe(onNext: { [weak self] roomName in
-                self?.chatView.chatTitleLabel.text = roomName
-            })
+            .bind(to: chatView.chatTitleLabel.rx.text )
             .disposed(by: disposeBag)
     }
     
@@ -102,14 +95,15 @@ class ChatViewController: UIViewController {
             .disposed(by: disposeBag)
         
         chatView.sendButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                print("전송버튼 눌림")
-                if let text = self?.chatView.chatTextField.text {
-                    self?.chatView.chatTextField.text = ""
-                    self?.viewModel.sendMessage(text)
-                }
+            .map { self.chatView.chatTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { ($0 ?? "").isEmpty == false }
+            .compactMap { $0 }
+            .subscribe(onNext: { [weak self] text in
+                self?.chatView.chatTextField.text = ""
+                self?.viewModel.sendMessage(text)
             })
             .disposed(by: disposeBag)
+
     }
     
     private func scrollToBottom() {
