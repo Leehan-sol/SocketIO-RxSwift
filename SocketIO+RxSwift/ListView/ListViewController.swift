@@ -13,7 +13,6 @@ class ListViewController: UIViewController {
     private let listView = ListView()
     private let disposeBag = DisposeBag()
     private let viewModel: ViewModel
-    private var chatLists = [ChatList]()
     
     init(_ viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -52,9 +51,19 @@ class ListViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.chatListSubject
-            .subscribe(onNext: { [weak self] chatList in
-                self?.chatLists = chatList
+        viewModel.showAlertSubject
+            .subscribe { [weak self] title, message in
+                self?.showAlert(title, message)
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.naviSubject
+            .subscribe(onNext: { [weak self] roomName in
+                let newChat = ChatList(roomName: roomName, headCount: 0)
+                guard let nickname = try? self?.viewModel.nickNameSubject.value() else { return }
+                let chatVM = ChatViewModel(newChat, nickname)
+                let chatVC = ChatViewController(chatVM)
+                self?.navigationController?.pushViewController(chatVC, animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -72,24 +81,15 @@ class ListViewController: UIViewController {
             .disposed(by: disposeBag)
         
         listView.addChatButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.showAlertWithOneTF(from: self, title: "새 채팅방 만들기", message: "채팅방 이름을 입력하세요", placeholder: "채팅방 이름", button1: "확인", button2: "취소") { text in
+            .subscribe(onNext: { [weak self] _ in
+                self?.showAlertWithOneTF(title: "새 채팅방 만들기", message: "채팅방 이름을 입력하세요", placeholder: "채팅방 이름", button1: "확인", button2: "취소") { text in
                     if let chatName = text, !chatName.isEmpty {
-                        if self.chatLists.contains(where: { $0.roomName == chatName }) {
-                            self.showAlert("오류", "이미 존재하는 채팅방 이름입니다.")
-                        } else {
-                            self.viewModel.addChatList(chatName)
-                            let newChat = ChatList(roomName: chatName, headCount: 0)
-                            guard let nickname = try? self.viewModel.nickNameSubject.value() else { return }
-                            let chatVM = ChatViewModel(newChat, nickname)
-                            let chatVC = ChatViewController(chatVM)
-                            self.navigationController?.pushViewController(chatVC, animated: true)
-                        }
+                        self?.viewModel.addChatList(chatName)
                     }
                 }
             })
             .disposed(by: disposeBag)
+        
     }
     
 }

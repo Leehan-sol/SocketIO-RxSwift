@@ -22,11 +22,13 @@ class ViewModel {
     }
     
     var chatListSubject: BehaviorSubject<[ChatList]> = BehaviorSubject(value: [ChatList]())
+    var showAlertSubject: PublishSubject<(String, String)> = PublishSubject()
+    var naviSubject: PublishSubject<String> = PublishSubject()
     private let disposeBag = DisposeBag()
     
     
     init() {
-        SocketIOManager.shared.setupSocket()
+        SocketIOManager.shared.setSocket()
         setBindings()
     }
     
@@ -36,8 +38,21 @@ class ViewModel {
             .disposed(by: disposeBag)
     }
     
-    func addChatList(_ newChatName: String) {
-        SocketIOManager.shared.addChatList(newChatName)
+    func addChatList(_ chatName: String) {
+        guard let currentChatList = try? chatListSubject.value() else { return }
+        print("현재 채팅 목록:", currentChatList)
+        
+        if currentChatList.contains(where: { $0.roomName == chatName }) {
+            showAlertSubject.onNext(("오류","이미 존재하는 채팅방입니다."))
+        } else {
+            SocketIOManager.shared.addChatList(chatName)
+            naviSubject.onNext(chatName)
+        }
     }
+    
+    
+
 }
+
+
 

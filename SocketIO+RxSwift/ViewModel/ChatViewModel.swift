@@ -14,8 +14,9 @@ class ChatViewModel {
     
     var chatHeadCountSubject: PublishSubject<Int> = PublishSubject()
     var chatSubject: PublishSubject<[Chat]> = PublishSubject()
-    private var chats: [Chat] = []
     
+    
+    private var chats: [Chat] = []
     private let disposeBag = DisposeBag()
     
     init(_ selectedChat: ChatList, _ userNickname: String) {
@@ -70,8 +71,8 @@ class ChatViewModel {
     }
     
     func sendMessage(_ text: String) {
-        if let chat = try? selectedChatSubject.value() {
-            SocketIOManager.shared.sendMessage(chat.roomName, text, userNickname)
+        if let currentChat = try? selectedChatSubject.value() {
+            SocketIOManager.shared.sendMessage(currentChat.roomName, userNickname, text)
         }
     }
     

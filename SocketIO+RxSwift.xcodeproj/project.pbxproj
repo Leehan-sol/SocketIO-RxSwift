@@ -35,6 +35,7 @@
 		CC5595952C342A12004A3572 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595942C342A12004A3572 /* ChatViewModel.swift */; };
 		CC5595972C34322D004A3572 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595962C34322D004A3572 /* SocketManager.swift */; };
 		CC5E5A572C3528D200A088D0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = CC5E5A562C3528D200A088D0 /* SocketIO */; };
+		CC74B3282C3A605100D8E80E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74B3272C3A605100D8E80E /* Repository.swift */; };
 		CC79FF942C37EDD500117609 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC79FF932C37EDD500117609 /* KeyboardManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		CC5595922C3426E1004A3572 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		CC5595942C342A12004A3572 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		CC5595962C34322D004A3572 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		CC74B3272C3A605100D8E80E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		CC79FF932C37EDD500117609 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -169,6 +171,7 @@
 			children = (
 				CC55958C2C3407EF004A3572 /* ChatList.swift */,
 				CC55958E2C340800004A3572 /* Chat.swift */,
+				CC74B3272C3A605100D8E80E /* Repository.swift */,
 				CC5595962C34322D004A3572 /* SocketManager.swift */,
 			);
 			path = Model;
@@ -278,6 +281,7 @@
 				CC5595912C3408FD004A3572 /* ListTableViewCell.swift in Sources */,
 				CC5595952C342A12004A3572 /* ChatViewModel.swift in Sources */,
 				CC5595522C33DE6E004A3572 /* SceneDelegate.swift in Sources */,
+				CC74B3282C3A605100D8E80E /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,7 +14,7 @@ extension UIViewController {
         present(alertVC, animated: true, completion: nil)
     }
     
-    func showAlertWithOneTF(from viewController: UIViewController, title: String, message: String?, placeholder: String, button1: String, button2: String, completion: @escaping (_ text: String?) -> Void) {
+    func showAlertWithOneTF(title: String, message: String?, placeholder: String, button1: String, button2: String, completion: @escaping (_ text: String?) -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         alertController.addTextField { textField in
@@ -30,7 +30,7 @@ extension UIViewController {
         alertController.addAction(action)
         alertController.addAction(action2)
         
-        viewController.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
     
 }
