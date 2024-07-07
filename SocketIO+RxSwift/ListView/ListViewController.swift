@@ -56,7 +56,7 @@ class ListViewController: UIViewController {
                 self?.showAlert(title, message)
             }
             .disposed(by: disposeBag)
-        
+    
         viewModel.naviSubject
             .subscribe(onNext: { [weak self] roomName in
                 let newChat = ChatList(roomName: roomName, headCount: 0)
@@ -67,6 +67,7 @@ class ListViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
+    
     
     private func setTapGesture() {
         listView.listTableView.rx.itemSelected
@@ -80,7 +81,7 @@ class ListViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        listView.addChatButton.rx.tap
+        listView.addChatListButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.showAlertWithOneTF(title: "새 채팅방 만들기", message: "채팅방 이름을 입력하세요", placeholder: "채팅방 이름", button1: "확인", button2: "취소") { text in
                     if let chatName = text, !chatName.isEmpty {

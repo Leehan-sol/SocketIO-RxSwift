@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 class ChatViewModel {
-    var selectedChatSubject: BehaviorSubject<ChatList> = BehaviorSubject(value: ChatList(roomName: "", headCount: 0))
+    var selectedChatSubject: BehaviorSubject<ChatList>
     var userNickname: String
     
     var chatHeadCountSubject: PublishSubject<Int> = PublishSubject()
@@ -22,6 +22,7 @@ class ChatViewModel {
     init(_ selectedChat: ChatList, _ userNickname: String) {
         self.selectedChatSubject = BehaviorSubject(value: selectedChat)
         self.userNickname = userNickname
+        
         connectRoom(selectedChat.roomName)
         setBindings()
     }

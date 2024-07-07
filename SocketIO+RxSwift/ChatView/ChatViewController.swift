@@ -24,6 +24,7 @@ class ChatViewController: UIViewController {
         
     }
     
+    
     override func loadView() {
         view = chatView
     }
@@ -77,12 +78,12 @@ class ChatViewController: UIViewController {
         
         viewModel.chatHeadCountSubject
             .map { "(\($0)명)"}
-            .bind(to: chatView.chatHeadCountLabel.rx.text)
+            .bind(to: chatView.headCountLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.selectedChatSubject
             .map { $0.roomName }
-            .bind(to: chatView.chatTitleLabel.rx.text )
+            .bind(to: chatView.roomNameLabel.rx.text )
             .disposed(by: disposeBag)
     }
     
@@ -95,7 +96,8 @@ class ChatViewController: UIViewController {
             .disposed(by: disposeBag)
         
         chatView.sendButton.rx.tap
-            .map { self.chatView.chatTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map { [weak self] _ in
+                self?.chatView.chatTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { ($0 ?? "").isEmpty == false }
             .compactMap { $0 }
             .subscribe(onNext: { [weak self] text in

@@ -8,7 +8,7 @@
 import UIKit
 
 class ChatView: UIView {
-    let chatTitleLabel: UILabel = {
+    let roomNameLabel: UILabel = {
         let label = UILabel()
         label.text = "채팅방 이름"
         label.textAlignment = .left
@@ -16,7 +16,7 @@ class ChatView: UIView {
         return label
     }()
     
-    let chatHeadCountLabel: UILabel = {
+    let headCountLabel: UILabel = {
         let label = UILabel()
         label.text = "(인원수)"
         label.textAlignment = .left
@@ -78,7 +78,7 @@ class ChatView: UIView {
     
     private func setUI() {
         self.backgroundColor = .systemBackground
-        let stackViewSubvies = [chatTitleLabel, chatHeadCountLabel]
+        let stackViewSubvies = [roomNameLabel, headCountLabel]
         let subviews = [labelsStackView, backButton, chatTableView, chatTextField, sendButton]
         
         subviews.forEach { addSubview($0) }
@@ -90,7 +90,7 @@ class ChatView: UIView {
             $0.trailing.lessThanOrEqualTo(backButton.snp.leading).offset(-20)
         }
         
-        chatHeadCountLabel.snp.makeConstraints {
+        headCountLabel.snp.makeConstraints {
             $0.trailing.lessThanOrEqualToSuperview().offset(-10)
         }
         
@@ -100,7 +100,7 @@ class ChatView: UIView {
         }
         
         chatTableView.snp.makeConstraints {
-            $0.top.equalTo(chatTitleLabel.snp.bottom).offset(5)
+            $0.top.equalTo(roomNameLabel.snp.bottom).offset(5)
             $0.leading.trailing.equalTo(safeAreaLayoutGuide)
             $0.bottom.equalTo(chatTextField.snp.top).offset(-10)
         }
