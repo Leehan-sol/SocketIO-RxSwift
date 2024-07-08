@@ -13,7 +13,7 @@ enum SocketEvent: String {
     case addChatList = "addChatList"
     case connectRoom = "connectRoom"
     case disconnectRoom = "disconnectRoom"
-    case message = "message"
+    case sendMessage = "sendMessage"
 }
 
 
@@ -77,8 +77,8 @@ class SocketIOManager {
             }
         }
         
-        socket.on(SocketEvent.message.rawValue) { [weak self] data, ack in
-            if let chat = self?.repository.parsingData(SocketEvent.message, data) as? Chat  {
+        socket.on(SocketEvent.sendMessage.rawValue) { [weak self] data, ack in
+            if let chat = self?.repository.parsingData(SocketEvent.sendMessage, data) as? Chat  {
                 self?.chatSubject.onNext(chat)
             }
         }
@@ -101,7 +101,7 @@ class SocketIOManager {
     
     func sendMessage(_ roomName: String, _ userNickname: String, _ text: String) {
         let newMessage = ["roomName": roomName, "userNickname" : userNickname, "text": text]
-        socket.emit(SocketEvent.message.rawValue, newMessage)
+        socket.emit(SocketEvent.sendMessage.rawValue, newMessage)
     }
     
     

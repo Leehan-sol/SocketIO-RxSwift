@@ -23,7 +23,7 @@ struct Repository {
             let sender = dict?["sender"] as? String ?? "알 수 없는 사용자"
             let disconnectRoomMessage = Chat(message: "\(sender) 님이 퇴장했습니다.", sender: "관리자")
             return disconnectRoomMessage
-        case .message:
+        case .sendMessage:
             let dict = data[0] as? [String: Any]
             let text = dict?["text"] as? String ?? ""
             let sender = dict?["sender"] as? String ?? "알 수 없는 사용자"

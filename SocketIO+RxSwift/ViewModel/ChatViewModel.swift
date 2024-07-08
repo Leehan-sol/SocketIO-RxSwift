@@ -53,11 +53,9 @@ class ChatViewModel {
                 guard let self = self else { return }
                 if let chatList = filteredChatLists.first {
                     self.chatHeadCountSubject.onNext(chatList.headCount)
-                    print("인원수변경 \(chatList)")
                 }
             })
             .disposed(by: disposeBag)
-        
     }
     
     
