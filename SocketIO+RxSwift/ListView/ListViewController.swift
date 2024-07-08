@@ -61,9 +61,9 @@ class ListViewController: UIViewController {
             .subscribe(onNext: { [weak self] roomName in
                 let newChat = ChatList(roomName: roomName, headCount: 0)
                 guard let nickname = try? self?.viewModel.nickNameSubject.value() else { return }
-                let chatVM = ChatViewModel(newChat, nickname)
-                let chatVC = ChatViewController(chatVM)
-                self?.navigationController?.pushViewController(chatVC, animated: true)
+                let chatRoomVM = ChatRoomViewModel(newChat, nickname)
+                let chatRoomVC = ChatRoomViewController(chatRoomVM)
+                self?.navigationController?.pushViewController(chatRoomVC, animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -72,12 +72,11 @@ class ListViewController: UIViewController {
     private func setTapGesture() {
         listView.listTableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
-                guard let selectedChat = try? self.viewModel.chatListSubject.value()[indexPath.row] else { return }
-                guard let nickname = try? self.viewModel.nickNameSubject.value() else { return }
-                let chatVM = ChatViewModel(selectedChat,nickname)
-                let chatVC = ChatViewController(chatVM)
-                navigationController?.pushViewController(chatVC, animated: true)
+                guard let selectedChat = try? self?.viewModel.chatListSubject.value()[indexPath.row] else { return }
+                guard let nickname = try? self?.viewModel.nickNameSubject.value() else { return }
+                let chatRoomVM = ChatRoomViewModel(selectedChat,nickname)
+                let chatRoomVC = ChatRoomViewController(chatRoomVM)
+                self?.navigationController?.pushViewController(chatRoomVC, animated: true)
             })
             .disposed(by: disposeBag)
         

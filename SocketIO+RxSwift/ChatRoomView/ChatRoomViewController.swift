@@ -9,12 +9,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ChatViewController: UIViewController {
-    private let chatView = ChatView()
-    private let viewModel: ChatViewModel
+class ChatRoomViewController: UIViewController {
+    private let chatRoomView = ChatRoomView()
+    private let viewModel: ChatRoomViewModel
     private let disposeBag = DisposeBag()
     
-    init(_ viewModel: ChatViewModel) {
+    init(_ viewModel: ChatRoomViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: .none)
     }
@@ -26,7 +26,7 @@ class ChatViewController: UIViewController {
     
     
     override func loadView() {
-        view = chatView
+        view = chatRoomView
     }
     
     override func viewDidLoad() {
@@ -39,7 +39,7 @@ class ChatViewController: UIViewController {
     }
     
     private func setTableView() {
-        chatView.chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: "chatCell")
+        chatRoomView.chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: "chatCell")
     }
     
     
@@ -64,9 +64,8 @@ class ChatViewController: UIViewController {
     
     private func setBindings() {
         viewModel.chatSubject
-            .bind(to: chatView.chatTableView.rx.items(cellIdentifier: "chatCell", cellType: ChatTableViewCell.self)) { [weak self] index, item, cell in
-                guard let self = self else { return }
-                cell.configure(with: item, userNickname: self.viewModel.userNickname)
+            .bind(to: chatRoomView.chatTableView.rx.items(cellIdentifier: "chatCell", cellType: ChatTableViewCell.self)) { [weak self] index, item, cell in
+                cell.configure(with: item, userNickname: self?.viewModel.userNickname ?? "")
             }
             .disposed(by: disposeBag)
         
@@ -76,32 +75,32 @@ class ChatViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        viewModel.chatHeadCountSubject
+        viewModel.chatRoomHeadCountSubject
             .map { "(\($0)명)"}
-            .bind(to: chatView.headCountLabel.rx.text)
+            .bind(to: chatRoomView.headCountLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.selectedChatSubject
+        viewModel.selectedChatRoomSubject
             .map { $0.roomName }
-            .bind(to: chatView.roomNameLabel.rx.text )
+            .bind(to: chatRoomView.roomNameLabel.rx.text )
             .disposed(by: disposeBag)
     }
     
     
     private func setTapGesture() {
-        chatView.backButton.rx.tap
+        chatRoomView.backButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
         
-        chatView.sendButton.rx.tap
+        chatRoomView.sendButton.rx.tap
             .map { [weak self] _ in
-                self?.chatView.chatTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) }
+                self?.chatRoomView.chatTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { ($0 ?? "").isEmpty == false }
             .compactMap { $0 }
             .subscribe(onNext: { [weak self] text in
-                self?.chatView.chatTextField.text = ""
+                self?.chatRoomView.chatTextField.text = ""
                 self?.viewModel.sendMessage(text)
             })
             .disposed(by: disposeBag)
@@ -109,10 +108,10 @@ class ChatViewController: UIViewController {
     }
     
     private func scrollToBottom() {
-        let lastRow = self.chatView.chatTableView.numberOfRows(inSection: 0) - 1
+        let lastRow = self.chatRoomView.chatTableView.numberOfRows(inSection: 0) - 1
         if lastRow >= 0 {
             let indexPath = IndexPath(row: lastRow, section: 0)
-            self.chatView.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            self.chatRoomView.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     

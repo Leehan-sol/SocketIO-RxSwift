@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatView: UIView {
+class ChatRoomView: UIView {
     let roomNameLabel: UILabel = {
         let label = UILabel()
         label.text = "채팅방 이름"

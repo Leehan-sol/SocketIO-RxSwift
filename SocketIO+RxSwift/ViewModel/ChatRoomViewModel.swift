@@ -8,27 +8,26 @@
 import Foundation
 import RxSwift
 
-class ChatViewModel {
-    var selectedChatSubject: BehaviorSubject<ChatList>
+class ChatRoomViewModel {
+    var selectedChatRoomSubject: BehaviorSubject<ChatList>
     var userNickname: String
     
-    var chatHeadCountSubject: PublishSubject<Int> = PublishSubject()
+    var chatRoomHeadCountSubject: PublishSubject<Int> = PublishSubject()
     var chatSubject: PublishSubject<[Chat]> = PublishSubject()
-    
     
     private var chats: [Chat] = []
     private let disposeBag = DisposeBag()
     
-    init(_ selectedChat: ChatList, _ userNickname: String) {
-        self.selectedChatSubject = BehaviorSubject(value: selectedChat)
+    init(_ selectedChatRoomSubject: ChatList, _ userNickname: String) {
+        self.selectedChatRoomSubject = BehaviorSubject(value: selectedChatRoomSubject)
         self.userNickname = userNickname
         
-        connectRoom(selectedChat.roomName)
+        connectRoom(selectedChatRoomSubject.roomName)
         setBindings()
     }
     
     deinit {
-        if let chat = try? selectedChatSubject.value() {
+        if let chat = try? selectedChatRoomSubject.value() {
             disConnectRoom(chat.roomName)
         }
     }
@@ -36,23 +35,21 @@ class ChatViewModel {
     func setBindings() {
         SocketIOManager.shared.chatSubject
             .subscribe(onNext: { [weak self] chats in
-                guard let self = self else { return }
-                self.chats.append(chats)
-                self.chatSubject.onNext(self.chats)
+                self?.chats.append(chats)
+                self?.chatSubject.onNext(self?.chats ?? [])
             })
             .disposed(by: disposeBag)
         
-        selectedChatSubject
-            .flatMapLatest { selectedChat -> Observable<[ChatList]> in
+        selectedChatRoomSubject
+            .flatMap { selectedChat -> Observable<ChatList?> in
                 SocketIOManager.shared.chatListSubject
-                    .map { chatLists -> [ChatList] in
-                        chatLists.filter { $0.roomName == selectedChat.roomName }
+                    .map { chatLists -> ChatList? in
+                        return chatLists.first(where: { $0.roomName == selectedChat.roomName })
                     }
             }
-            .subscribe(onNext: { [weak self] filteredChatLists in
-                guard let self = self else { return }
-                if let chatList = filteredChatLists.first {
-                    self.chatHeadCountSubject.onNext(chatList.headCount)
+            .subscribe(onNext: { [weak self] filteredChatList in
+                if let chatList = filteredChatList {
+                    self?.chatRoomHeadCountSubject.onNext(chatList.headCount)
                 }
             })
             .disposed(by: disposeBag)
@@ -70,7 +67,7 @@ class ChatViewModel {
     }
     
     func sendMessage(_ text: String) {
-        if let currentChat = try? selectedChatSubject.value() {
+        if let currentChat = try? selectedChatRoomSubject.value() {
             SocketIOManager.shared.sendMessage(currentChat.roomName, userNickname, text)
         }
     }
