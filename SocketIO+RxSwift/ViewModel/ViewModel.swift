@@ -17,7 +17,7 @@ class ViewModel {
     var validNickname: Observable<Bool> {
         return nickNameSubject.map { nickName in
             guard let nickName = nickName else { return false }
-            return !nickName.isEmpty && nickName.count <= 10
+            return nickName.count <= 10
         }
     }
     
