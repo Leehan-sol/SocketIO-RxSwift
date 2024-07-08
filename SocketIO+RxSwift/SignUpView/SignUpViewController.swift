@@ -30,10 +30,9 @@ class SignUpViewController: UIViewController {
     
     private func setBindings() {
         signUpView.signUpTextField.rx.text
-            .map { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { ($0 ?? "").isEmpty == false }
-            .bind(to: viewModel.nickNameSubject)
-            .disposed(by: disposeBag)
+             .map { $0?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "" }
+             .bind(to: viewModel.nickNameSubject)
+             .disposed(by: disposeBag)
         
         viewModel.validNickname
             .bind(to: signUpView.signUpButton.rx.isEnabled)
