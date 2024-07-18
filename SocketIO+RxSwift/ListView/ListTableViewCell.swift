@@ -50,7 +50,7 @@ class ListTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(with chatList: ChatList) {
+    func configure(with chatList: ChatRoom) {
         roomNameLabel.text = chatList.roomName
         headCountLabel.text = "현재 \(chatList.headCount) 명"
     }

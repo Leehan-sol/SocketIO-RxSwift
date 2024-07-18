@@ -34,11 +34,11 @@ struct Repository {
     }
     
     
-    private func parseChatList(_ data: [Any]) -> [ChatList] {
+    private func parseChatList(_ data: [Any]) -> [ChatRoom] {
         guard let jsonString = data[0] as? String else { return [] }
         
         do {
-            let jsonData = try JSONDecoder().decode([ChatList].self, from: Data(jsonString.utf8))
+            let jsonData = try JSONDecoder().decode([ChatRoom].self, from: Data(jsonString.utf8))
             return jsonData
         } catch {
             print("채팅방 목록을 불러오는 데 실패했습니다: \(error)")

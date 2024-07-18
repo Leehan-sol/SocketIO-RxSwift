@@ -59,7 +59,7 @@ class ListViewController: UIViewController {
     
         viewModel.naviSubject
             .subscribe(onNext: { [weak self] roomName in
-                let newChat = ChatList(roomName: roomName, headCount: 0)
+                let newChat = ChatRoom(roomName: roomName, headCount: 0)
                 guard let nickname = try? self?.viewModel.nickNameSubject.value() else { return }
                 let chatRoomVM = ChatRoomViewModel(newChat, nickname)
                 let chatRoomVC = ChatRoomViewController(chatRoomVM)

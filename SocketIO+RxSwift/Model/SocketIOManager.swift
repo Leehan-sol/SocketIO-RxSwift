@@ -24,7 +24,7 @@ class SocketIOManager {
     private let socket: SocketIOClient
     private let repository = Repository()
     
-    let chatListSubject = BehaviorSubject<[ChatList]>(value: [])
+    let chatListSubject = BehaviorSubject<[ChatRoom]>(value: [])
     let chatSubject: PublishSubject<Chat> = PublishSubject()
     
     private var handlersAdded = false
@@ -51,10 +51,6 @@ class SocketIOManager {
         guard !handlersAdded else { return }
         handlersAdded = true
         
-        socket.on(clientEvent: .connect) { data, ack in
-            print("소켓 연결")
-        }
-        
         socket.on(clientEvent: .disconnect) { data, ack in
             print("소켓 연결 해제")
         }
@@ -72,7 +68,7 @@ class SocketIOManager {
         }
         
         socket.on(SocketEvent.addChatList.rawValue) { [weak self] data, ack in
-            if let chatList = self?.repository.parsingData(SocketEvent.addChatList, data) as? [ChatList]  {
+            if let chatList = self?.repository.parsingData(SocketEvent.addChatList, data) as? [ChatRoom]  {
                 self?.chatListSubject.onNext(chatList)
             }
         }
@@ -83,7 +79,7 @@ class SocketIOManager {
             }
         }
     }
-
+    
     func connectRoom(_ roomName: String, _ userNickname: String) {
         let connectUser = ["roomName" : roomName, "userNickname" : userNickname]
         socket.emit(SocketEvent.connectRoom.rawValue, connectUser)
@@ -93,7 +89,7 @@ class SocketIOManager {
         let disconnectUser = ["roomName" : roomName, "userNickname" : userNickname]
         socket.emit(SocketEvent.disconnectRoom.rawValue, disconnectUser)
     }
-
+    
     func addChatList(_ newChatName: String) {
         let newChat = ["roomName": newChatName, "headCount": "0"]
         socket.emit(SocketEvent.addChatList.rawValue, newChat)

@@ -11,17 +11,16 @@ import RxSwift
 class ViewModel {
     
     // Input
-    let nickNameSubject = BehaviorSubject<String?>(value: nil)
+    let nickNameSubject = BehaviorSubject<String>(value: "")
     
     // Output
     var validNickname: Observable<Bool> {
         return nickNameSubject.map { nickname in
-            guard let nickname = nickname else { return false }
             return !nickname.isEmpty && nickname.count <= 10
         }
     }
     
-    var chatListSubject: BehaviorSubject<[ChatList]> = BehaviorSubject(value: [ChatList]())
+    var chatListSubject: BehaviorSubject<[ChatRoom]> = BehaviorSubject(value: [ChatRoom]())
     var showAlertSubject: PublishSubject<(String, String)> = PublishSubject()
     var naviSubject: PublishSubject<String> = PublishSubject()
     private let disposeBag = DisposeBag()

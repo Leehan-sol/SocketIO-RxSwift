@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 class ChatRoomViewModel {
-    var selectedChatRoomSubject: BehaviorSubject<ChatList>
+    var selectedChatRoomSubject: BehaviorSubject<ChatRoom>
     var userNickname: String
     
     var chatRoomHeadCountSubject: PublishSubject<Int> = PublishSubject()
@@ -18,7 +18,7 @@ class ChatRoomViewModel {
     private var chats: [Chat] = []
     private let disposeBag = DisposeBag()
     
-    init(_ selectedChatRoomSubject: ChatList, _ userNickname: String) {
+    init(_ selectedChatRoomSubject: ChatRoom, _ userNickname: String) {
         self.selectedChatRoomSubject = BehaviorSubject(value: selectedChatRoomSubject)
         self.userNickname = userNickname
         
@@ -36,20 +36,22 @@ class ChatRoomViewModel {
         SocketIOManager.shared.chatSubject
             .subscribe(onNext: { [weak self] chats in
                 self?.chats.append(chats)
+                print("챗:", self?.chats)
                 self?.chatSubject.onNext(self?.chats ?? [])
             })
             .disposed(by: disposeBag)
         
         selectedChatRoomSubject
-            .flatMap { selectedChat -> Observable<ChatList?> in
+            .flatMap { selectedChat -> Observable<ChatRoom?> in
+                // SocketIOManager.shared.chatListSubject가 바뀔때마다 새롭게 매핑
                 SocketIOManager.shared.chatListSubject
-                    .map { chatLists -> ChatList? in
+                    .map { chatLists -> ChatRoom? in
                         return chatLists.first(where: { $0.roomName == selectedChat.roomName })
                     }
             }
-            .subscribe(onNext: { [weak self] filteredChatList in
-                if let chatList = filteredChatList {
-                    self?.chatRoomHeadCountSubject.onNext(chatList.headCount)
+            .subscribe(onNext: { [weak self] currentChatRoom in
+                if let room = currentChatRoom {
+                    self?.chatRoomHeadCountSubject.onNext(room.headCount)
                 }
             })
             .disposed(by: disposeBag)
@@ -73,4 +75,3 @@ class ChatRoomViewModel {
     }
     
 }
-

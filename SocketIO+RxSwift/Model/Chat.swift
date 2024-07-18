@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import SocketIO
 
-struct Chat {
+struct Chat: SocketData {
     let message: String
     let sender: String
 }
+
+
+
+

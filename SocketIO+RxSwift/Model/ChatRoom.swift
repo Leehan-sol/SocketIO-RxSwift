@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChatList: Codable {
+struct ChatRoom: Codable {
     let roomName: String
     let headCount: Int
 }
