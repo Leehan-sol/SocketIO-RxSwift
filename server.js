@@ -1,6 +1,7 @@
  const express = require('express'); 
  const socket = require('socket.io');
- const ChatList = require('./ChatList');
+ const ChatList = require('./ChatRoom');
+const ChatRoom = require('./ChatRoom');
 // Express 애플리케이션 생성
 const app = express();
 // 포트설정 (환경 변수에 PORT가 설정되어 있으면 그 값을 사용하고, 아니면 3000번 포트 사용)
@@ -58,7 +59,7 @@ socketIO.on('connection', (socket) => {
   // 'addChatList' 수신
   socket.on('addChatList', (data) => {
     const { roomName, headCount } = data;
-    chatLists.push(new ChatList(roomName, Number(headCount)));
+    chatLists.push(new ChatRoom(roomName, Number(headCount)));
     console.log(chatLists);
     sendChatList();
   });
