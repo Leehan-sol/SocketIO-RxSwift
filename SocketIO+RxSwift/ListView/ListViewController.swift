@@ -11,10 +11,9 @@ import RxCocoa
 
 class ListViewController: UIViewController {
     private let listView = ListView()
-    private let disposeBag = DisposeBag()
     private let viewModel: ListViewModel
-    
-    let addChatRoomAction: PublishSubject<String> = PublishSubject()
+    private let addChatRoomAction: PublishSubject<String> = PublishSubject()
+    private let disposeBag = DisposeBag()
     
     init(_ viewModel: ListViewModel) {
         self.viewModel = viewModel
@@ -49,11 +48,9 @@ class ListViewController: UIViewController {
         listView.listTableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 self?.listView.listTableView.deselectRow(at: indexPath, animated: true)
-                guard let selectedChat = try? self?.viewModel.chatListSubject.value()[indexPath.row] else { return }
-                let nickname = self?.viewModel.nickname ?? ""
-                self?.goChatRoom(room: selectedChat, nickname: nickname, roomName: nil)
-            })
-            .disposed(by: disposeBag)
+                guard let selectedChat = try? self?.viewModel.chatRoomList.value()[indexPath.row] else { return }
+                self?.goChatRoom(existingRoom: selectedChat, newRoomName: nil)
+            }).disposed(by: disposeBag)
         
         listView.addChatRoomButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -66,42 +63,33 @@ class ListViewController: UIViewController {
     }
     
     private func setBindings() {
-        let input = ListViewModel.ListInput(addChatRoomTrigger: addChatRoomAction)
+        let input = ListViewModel.Input(addChatRoom: addChatRoomAction)
         let output = viewModel.transform(input: input)
         
-        output.chatList
+        output.chatRoomList
             .bind(to: listView.listTableView.rx.items(cellIdentifier: "listCell", cellType: ListTableViewCell.self)) { index, item, cell in
                 cell.configure(with: item)
             }.disposed(by: disposeBag)
         
-        output.showAlertTrigger
+        output.showAlert
             .subscribe { [weak self] title, message in
                 self?.showAlert(title, message)
             }.disposed(by: disposeBag)
         
-        output.naviTrigger
+        output.goNavi
             .subscribe(onNext: { [weak self] roomName in
-                let nickname = self?.viewModel.nickname ?? ""
-                self?.goChatRoom(room: nil, nickname: nickname, roomName: roomName)
+                self?.goChatRoom(existingRoom: nil, newRoomName: roomName)
             }).disposed(by: disposeBag)
     }
     
 
-    private func goChatRoom(room: ChatRoom?, nickname: String, roomName: String?) {
-        let chatRoomVM: ChatRoomViewModel
-        let chatRoomVC: ChatRoomViewController
-        
-        if let room = room {
-            chatRoomVM = ChatRoomViewModel(room, nickname)
-        } else {
-            let newChat = ChatRoom(roomName: roomName ?? "", headCount: 0)
-            chatRoomVM = ChatRoomViewModel(newChat, nickname)
-        }
-        
-        chatRoomVC = ChatRoomViewController(chatRoomVM)
+    private func goChatRoom(existingRoom: ChatRoom?, newRoomName: String?) {
+        let chatRoom = existingRoom != nil ? existingRoom! : ChatRoom(roomName: newRoomName ?? "", headCount: 0)
+        let chatRoomVM = ChatRoomViewModel(chatRoom, viewModel.nickname)
+        let chatRoomVC = ChatRoomViewController(chatRoomVM)
         self.navigationController?.pushViewController(chatRoomVC, animated: true)
     }
-    
 
+    
 }
 

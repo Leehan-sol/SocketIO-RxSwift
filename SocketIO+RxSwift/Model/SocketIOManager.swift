@@ -10,7 +10,7 @@ import SocketIO
 import RxSwift
 
 enum SocketEvent: String {
-    case addChatList = "addChatList"
+    case addChatRoom = "addChatRoom"
     case connectRoom = "connectRoom"
     case disconnectRoom = "disconnectRoom"
     case sendMessage = "sendMessage"
@@ -24,7 +24,7 @@ class SocketIOManager {
     private let socket: SocketIOClient
     private let repository = Repository()
     
-    let chatListSubject = BehaviorSubject<[ChatRoom]>(value: [])
+    let chatRoomList = BehaviorSubject<[ChatRoom]>(value: [])
     let chatSubject: PublishSubject<Chat> = PublishSubject()
     
     private var handlersAdded = false
@@ -67,9 +67,9 @@ class SocketIOManager {
             }
         }
         
-        socket.on(SocketEvent.addChatList.rawValue) { [weak self] data, ack in
-            if let chatList = self?.repository.parsingData(SocketEvent.addChatList, data) as? [ChatRoom]  {
-                self?.chatListSubject.onNext(chatList)
+        socket.on(SocketEvent.addChatRoom.rawValue) { [weak self] data, ack in
+            if let chatList = self?.repository.parsingData(SocketEvent.addChatRoom, data) as? [ChatRoom]  {
+                self?.chatRoomList.onNext(chatList)
             }
         }
         
@@ -91,8 +91,8 @@ class SocketIOManager {
     }
     
     func addChatRoom(_ newChatName: String) {
-        let newChat = ["roomName": newChatName, "headCount": "0"]
-        socket.emit(SocketEvent.addChatList.rawValue, newChat)
+        let newChatRoom = ["roomName": newChatName, "headCount": "0"]
+        socket.emit(SocketEvent.addChatRoom.rawValue, newChatRoom)
     }
     
     func sendMessage(_ roomName: String, _ userNickname: String, _ text: String) {

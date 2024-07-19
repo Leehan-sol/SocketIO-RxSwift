@@ -11,7 +11,7 @@ struct Repository {
     
     func parsingData(_ event: SocketEvent, _ data: [Any]) -> Any? {
         switch event {
-        case .addChatList:
+        case .addChatRoom:
             return parseChatList(data)
         case .connectRoom:
             let dict = data[0] as? [String: Any]
@@ -25,7 +25,7 @@ struct Repository {
             return disconnectRoomMessage
         case .sendMessage:
             let dict = data[0] as? [String: Any]
-            let text = dict?["text"] as? String ?? ""
+            let text = dict?["text"] as? String ?? "메세지 전송에 실패했습니다."
             let sender = dict?["sender"] as? String ?? "알 수 없는 사용자"
             let message = Chat(message: text, sender: sender)
             return message

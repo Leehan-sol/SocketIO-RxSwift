@@ -48,14 +48,13 @@ class SignUpViewController: UIViewController {
             .map { $0?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "" }
             .asObservable()
         
-        let input = SignUpViewModel.SignUpInput(nickname: nickname)
+        let input = SignUpViewModel.Input(nickname: nickname)
         let output = viewModel.transform(input: input)
         
         output.validNickname
             .bind(to: signUpView.signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
-    
     
     
 }

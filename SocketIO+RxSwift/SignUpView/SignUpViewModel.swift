@@ -8,24 +8,24 @@
 import Foundation
 import RxSwift
 
-class SignUpViewModel {
+class SignUpViewModel: ViewModelType {
     
-    struct SignUpInput {
+    struct Input {
         let nickname: Observable<String>
     }
     
-    struct SignUpOutput {
+    struct Output {
         let validNickname: Observable<Bool>
     }
     
-    func transform(input: SignUpInput) -> SignUpOutput {
+    func transform(input: Input) -> Output {
         let validNickName = input.nickname
             .map { nickname in
                 return !nickname.isEmpty && nickname.count <= 10
             }
             .share(replay: 1)
         
-        return SignUpOutput(validNickname: validNickName)
+        return Output(validNickname: validNickName)
     }
     
 }
