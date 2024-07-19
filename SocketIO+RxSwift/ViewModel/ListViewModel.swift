@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  ListViewModel.swift
 //  SocketIO+RxSwift
 //
 //  Created by hansol on 2024/07/02.
@@ -8,25 +8,16 @@
 import Foundation
 import RxSwift
 
-class ViewModel {
-    
-    // Input
-    let nickNameSubject = BehaviorSubject<String>(value: "")
-    
-    // Output
-    var validNickname: Observable<Bool> {
-        return nickNameSubject.map { nickname in
-            return !nickname.isEmpty && nickname.count <= 10
-        }
-    }
-    
+class ListViewModel {
+   let nickname: String
     var chatListSubject: BehaviorSubject<[ChatRoom]> = BehaviorSubject(value: [ChatRoom]())
     var showAlertSubject: PublishSubject<(String, String)> = PublishSubject()
     var naviSubject: PublishSubject<String> = PublishSubject()
     private let disposeBag = DisposeBag()
     
     
-    init() {
+    init(nickname: String) {
+        self.nickname = nickname
         SocketIOManager.shared.setSocket()
         setBindings()
     }

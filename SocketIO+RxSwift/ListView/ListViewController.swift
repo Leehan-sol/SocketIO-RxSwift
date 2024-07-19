@@ -12,9 +12,9 @@ import RxCocoa
 class ListViewController: UIViewController {
     private let listView = ListView()
     private let disposeBag = DisposeBag()
-    private let viewModel: ViewModel
+    private let viewModel: ListViewModel
     
-    init(_ viewModel: ViewModel) {
+    init(_ viewModel: ListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: .none)
     }
@@ -60,7 +60,7 @@ class ListViewController: UIViewController {
         viewModel.naviSubject
             .subscribe(onNext: { [weak self] roomName in
                 let newChat = ChatRoom(roomName: roomName, headCount: 0)
-                guard let nickname = try? self?.viewModel.nickNameSubject.value() else { return }
+                let nickname = self?.viewModel.nickname ?? ""
                 let chatRoomVM = ChatRoomViewModel(newChat, nickname)
                 let chatRoomVC = ChatRoomViewController(chatRoomVM)
                 self?.navigationController?.pushViewController(chatRoomVC, animated: true)
@@ -73,7 +73,7 @@ class ListViewController: UIViewController {
         listView.listTableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let selectedChat = try? self?.viewModel.chatListSubject.value()[indexPath.row] else { return }
-                guard let nickname = try? self?.viewModel.nickNameSubject.value() else { return }
+                let nickname = self?.viewModel.nickname ?? ""
                 let chatRoomVM = ChatRoomViewModel(selectedChat,nickname)
                 let chatRoomVC = ChatRoomViewController(chatRoomVM)
                 self?.navigationController?.pushViewController(chatRoomVC, animated: true)
