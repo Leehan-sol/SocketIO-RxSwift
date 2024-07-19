@@ -19,7 +19,7 @@ function sendChatList() {
     headCount: Number(list.headCount) 
   }));
   const jsonResponse = JSON.stringify(response);
-  socketIO.emit('addChatList', jsonResponse);
+  socketIO.emit('addChatRoom', jsonResponse);
 }
 
 function increaseHeadCount(roomName) {
@@ -57,7 +57,7 @@ socketIO.on('connection', (socket) => {
   sendChatList();
 
   // 'addChatList' 수신
-  socket.on('addChatList', (data) => {
+  socket.on('addChatRoom', (data) => {
     const { roomName, headCount } = data;
     chatLists.push(new ChatRoom(roomName, Number(headCount)));
     console.log(chatLists);
