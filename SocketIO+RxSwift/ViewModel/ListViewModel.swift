@@ -18,6 +18,8 @@ class ListViewModel {
     
     init(nickname: String) {
         self.nickname = nickname
+        print("nickname: ", nickname)
+        
         SocketIOManager.shared.setSocket()
         setBindings()
     }

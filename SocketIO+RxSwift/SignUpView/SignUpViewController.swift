@@ -30,9 +30,12 @@ class SignUpViewController: UIViewController {
     
     private func setTapGesture() {
         signUpView.signUpButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                guard let viewModel = self?.viewModel else { return }
-//                self?.navigationController?.pushViewController(ListViewController(viewModel), animated: true)
+            .withLatestFrom(signUpView.signUpTextField.rx.text.orEmpty)
+            .subscribe(onNext: { [weak self] nickname in
+                guard let self = self else { return }
+                let listViewModel = ListViewModel(nickname: nickname)
+                let listViewController = ListViewController(listViewModel)
+                self.navigationController?.pushViewController(listViewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
