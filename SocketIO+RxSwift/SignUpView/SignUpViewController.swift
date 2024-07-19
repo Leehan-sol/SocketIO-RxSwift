@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
 
 class SignUpViewController: UIViewController {
     private let signUpView = SignUpView()
@@ -23,12 +24,15 @@ class SignUpViewController: UIViewController {
         setTapGesture()
         setBindings()
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
+
     
     private func setTapGesture() {
+        view.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.endEditing(true)
+            }).disposed(by: disposeBag)
+        
         signUpView.signUpButton.rx.tap
             .withLatestFrom(signUpView.signUpTextField.rx.text.orEmpty)
             .subscribe(onNext: { [weak self] nickname in
@@ -36,8 +40,7 @@ class SignUpViewController: UIViewController {
                 let listViewModel = ListViewModel(nickname: nickname)
                 let listViewController = ListViewController(listViewModel)
                 self.navigationController?.pushViewController(listViewController, animated: true)
-            })
-            .disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     private func setBindings() {

@@ -16,7 +16,7 @@ class ListView: UIView {
         return label
     }()
     
-    let addChatListButton: UIButton = {
+    let addChatRoomButton: UIButton = {
         let btn = UIButton(type: .system)
         btn.setTitle("생성", for: .normal)
         btn.tintColor = .black
@@ -43,7 +43,7 @@ class ListView: UIView {
     private func setUI() {
         self.backgroundColor = .systemBackground
         
-        let subviews = [listLabel, addChatListButton, listTableView]
+        let subviews = [listLabel, addChatRoomButton, listTableView]
         
         subviews.forEach { addSubview($0) }
         
@@ -52,7 +52,7 @@ class ListView: UIView {
             $0.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(20)
         }
         
-        addChatListButton.snp.makeConstraints {
+        addChatRoomButton.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
             $0.trailing.equalTo(safeAreaLayoutGuide.snp.trailing).inset(20)
         }

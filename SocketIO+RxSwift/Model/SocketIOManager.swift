@@ -90,7 +90,7 @@ class SocketIOManager {
         socket.emit(SocketEvent.disconnectRoom.rawValue, disconnectUser)
     }
     
-    func addChatList(_ newChatName: String) {
+    func addChatRoom(_ newChatName: String) {
         let newChat = ["roomName": newChatName, "headCount": "0"]
         socket.emit(SocketEvent.addChatList.rawValue, newChat)
     }

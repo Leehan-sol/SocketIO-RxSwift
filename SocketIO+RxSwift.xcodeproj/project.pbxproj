@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CC4C0E2B2C4A359600E17D07 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4C0E2A2C4A359600E17D07 /* SignUpViewModel.swift */; };
+		CC4C0E2E2C4A3FCB00E17D07 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = CC4C0E2D2C4A3FCB00E17D07 /* RxGesture */; };
 		CC5595502C33DE6E004A3572 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC55954F2C33DE6E004A3572 /* AppDelegate.swift */; };
 		CC5595522C33DE6E004A3572 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595512C33DE6E004A3572 /* SceneDelegate.swift */; };
 		CC5595542C33DE6E004A3572 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5595532C33DE6E004A3572 /* ListViewController.swift */; };
@@ -79,6 +80,7 @@
 				CC5595732C33E34A004A3572 /* SnapKit in Frameworks */,
 				CC55957D2C33EC5E004A3572 /* RxCocoa in Frameworks */,
 				CC5595832C33EC5E004A3572 /* RxRelay-Dynamic in Frameworks */,
+				CC4C0E2E2C4A3FCB00E17D07 /* RxGesture in Frameworks */,
 				CC5595852C33EC5E004A3572 /* RxSwift in Frameworks */,
 				CC5595792C33EC5E004A3572 /* RxBlocking in Frameworks */,
 			);
@@ -207,6 +209,7 @@
 				CC5595842C33EC5E004A3572 /* RxSwift */,
 				CC5595862C33EC5E004A3572 /* RxSwift-Dynamic */,
 				CC5E5A562C3528D200A088D0 /* SocketIO */,
+				CC4C0E2D2C4A3FCB00E17D07 /* RxGesture */,
 			);
 			productName = "SocketIO+RxSwift";
 			productReference = CC55954C2C33DE6E004A3572 /* SocketIO+RxSwift.app */;
@@ -240,6 +243,7 @@
 				CC5595712C33E34A004A3572 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CC5595772C33EC5E004A3572 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				CC5E5A552C3528D200A088D0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				CC4C0E2C2C4A3FCB00E17D07 /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = CC55954D2C33DE6E004A3572 /* Products */;
 			projectDirPath = "";
@@ -500,6 +504,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CC4C0E2C2C4A3FCB00E17D07 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 		CC5595712C33E34A004A3572 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -527,6 +539,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CC4C0E2D2C4A3FCB00E17D07 /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC4C0E2C2C4A3FCB00E17D07 /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
+		};
 		CC5595722C33E34A004A3572 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CC5595712C33E34A004A3572 /* XCRemoteSwiftPackageReference "SnapKit" */;
