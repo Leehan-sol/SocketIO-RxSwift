@@ -10,9 +10,9 @@ import RxSwift
 
 class ChatRoomViewModel: ViewModelType {
     let nickname: String
-    var chatRoomName: BehaviorSubject<ChatRoom>
-    var chatSubject: PublishSubject<[Chat]> = PublishSubject()
-    var chatRoomHeadCount: PublishSubject<Int> = PublishSubject()
+    private var chatRoomName: BehaviorSubject<ChatRoom>
+    private var chatSubject: PublishSubject<[Chat]> = PublishSubject()
+    private var chatRoomHeadCount: PublishSubject<Int> = PublishSubject()
     
     private var chats: [Chat] = []
     private let disposeBag = DisposeBag()
@@ -62,7 +62,7 @@ class ChatRoomViewModel: ViewModelType {
         
         chatRoomName
             .flatMap { selectedChat -> Observable<ChatRoom?> in
-                // SocketIOManager.shared.chatListSubject가 바뀔때마다 새롭게 매핑
+                // SocketIOManager.shared.chatRoomList가 바뀔때마다 새롭게 매핑
                 SocketIOManager.shared.chatRoomList
                     .map { chatLists -> ChatRoom? in
                         return chatLists.first(where: { $0.roomName == selectedChat.roomName })

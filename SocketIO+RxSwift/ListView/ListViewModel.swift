@@ -10,9 +10,9 @@ import RxSwift
 
 class ListViewModel: ViewModelType {
     let nickname: String
-    var chatRoomList: BehaviorSubject<[ChatRoom]> = BehaviorSubject(value: [ChatRoom]())
-    var showAlert: PublishSubject<(String, String)> = PublishSubject()
-    var goNavi: PublishSubject<String> = PublishSubject()
+    let chatRoomList: BehaviorSubject<[ChatRoom]> = BehaviorSubject(value: [ChatRoom]())
+    private var showAlert: PublishSubject<(String, String)> = PublishSubject()
+    private var goNavi: PublishSubject<String> = PublishSubject()
     private let disposeBag = DisposeBag()
     
     
